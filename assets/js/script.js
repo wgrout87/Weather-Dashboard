@@ -3,6 +3,7 @@ var searchEl = document.querySelector("#search");
 var searchInputEl = document.querySelector("#searchInput");
 var searchHistoryEl = document.querySelector("#searchHistory");
 var cityEl = document.querySelector("#city");
+var iconEl = document.querySelector("#icon");
 var currentDateEl = document.querySelector("#currentDate");
 var tempEl = document.querySelector("#temp");
 var windEl = document.querySelector("#wind");
@@ -71,8 +72,10 @@ var getWeather = function (lat, lon) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        // console.log(data);
+                        console.log(data);
                         updateCurrentWeather(data);
+                        var iconSrc = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
+                        iconEl.setAttribute("src", iconSrc);
                     })
             }
         })
@@ -85,11 +88,11 @@ var fiveDayForecast = function (lat, lon) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        console.log(data);
+                        // console.log(data);
                         for (i = 0; i < data.list.length; i++) {
                             var dateAndTimeArr = data.list[i].dt_txt.split(" ");
                             if (dateAndTimeArr[1] == "00:00:00") {
-                                console.log(dateAndTimeArr[0]);
+                                // console.log(dateAndTimeArr[0]);
                                 futureForecast(data.list[i], dateAndTimeArr[0]);
                             }
                         }
