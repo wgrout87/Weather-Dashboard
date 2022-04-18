@@ -16,6 +16,8 @@ var fiveDayForecastEl = document.querySelector("#fiveDayForecast");
 // BEGIN GLOBAL VARIABLES
 var searchedCity = null;
 var searchBtnPressed = false;
+var monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var searchHistoryArr = [];
 // END GLOBAL VARIABLES
 
 
@@ -86,7 +88,7 @@ var fiveDayForecast = function (lat, lon) {
                         console.log(data);
                         for (i = 0; i < data.list.length; i++) {
                             var dateAndTimeArr = data.list[i].dt_txt.split(" ");
-                            if (dateAndTimeArr[1] == "12:00:00") {
+                            if (dateAndTimeArr[1] == "00:00:00") {
                                 console.log(dateAndTimeArr[0]);
                                 futureForecast(data.list[i], dateAndTimeArr[0]);
                             }
@@ -122,9 +124,13 @@ var assessUvi = function (uvi) {
 var futureForecast = function (arrObj, date) {
     var futureDayEl = document.createElement("div");
     futureDayEl.classList.add("bg-dark", "text-light", "rounded", "col-10", "col-lg-2", "my-4", "mx-auto");
-    var futureDateEl = document.createElement("h3");
-    futureDateEl.textContent = date;
+    var futureDateEl = document.createElement("h4");
+    futureDateEl.textContent = convertDate(date);
     futureDayEl.appendChild(futureDateEl);
+    var futureIcon = document.createElement("img");
+    var iconSrc = "http://openweathermap.org/img/wn/" + arrObj.weather[0].icon + "@2x.png";
+    futureIcon.setAttribute("src", iconSrc);
+    futureDayEl.appendChild(futureIcon);
     var futureTempEl = document.createElement("p");
     futureTempEl.textContent = "Temp: " + arrObj.main.temp;
     futureDayEl.appendChild(futureTempEl);
@@ -146,16 +152,29 @@ var removeOldForecast = function () {
 };
 
 var createSearchHistoryBtn = function (city) {
-    var newBtnEl = document.createElement("button");
-    newBtnEl.setAttribute("class", "btn btn-secondary btn-block");
-    newBtnEl.textContent = city;
-    searchHistoryEl.appendChild(newBtnEl);
+    if (!searchHistoryArr.includes(city)) {
+        var newBtnEl = document.createElement("button");
+        newBtnEl.setAttribute("class", "btn btn-secondary btn-block");
+        newBtnEl.textContent = city;
+        searchHistoryEl.appendChild(newBtnEl);
+        searchHistoryArr.push(city);
+        console.log(searchHistoryArr);
+    }
 };
 
 var properCapitalization = function (string) {
     var lowerCaseString = string.toLowerCase();
     var fixedString = lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
     return fixedString;
+};
+
+var convertDate = function (fullDate) {
+    var fullDateArr = fullDate.split("-");
+    var year = fullDateArr[0];
+    var month = monthsArr[fullDateArr[1] - 1];
+    var date = fullDateArr[2];
+    var newDate = month + " " + date + " " + year;
+    return newDate;
 };
 
 var buttonHandler = function (event) {
