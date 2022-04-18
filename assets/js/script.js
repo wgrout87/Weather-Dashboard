@@ -34,7 +34,11 @@ var getCurrentCityWeather = function (city) {
                         .then(function (data) {
                             // console.log(data);
                             if (searchBtnPressed == true) {
-                                createSearchHistoryBtn(city);
+                                if (!searchHistoryArr.includes(city)) {
+                                    searchHistoryArr.unshift(city);
+                                    console.log(searchHistoryArr);
+                                    createSearchHistoryBtns();
+                                };
                                 searchBtnPressed = false;
                             }
                             updateCurrentCity(city);
@@ -154,20 +158,28 @@ var removeOldForecast = function () {
     }
 };
 
-var createSearchHistoryBtn = function (city) {
-    if (!searchHistoryArr.includes(city)) {
+var createSearchHistoryBtns = function () {
+    removeOldSearchBtns();
+    for (i = 0; i < searchHistoryArr.length; i++) {
         var newBtnEl = document.createElement("button");
         newBtnEl.setAttribute("class", "btn btn-secondary btn-block");
-        newBtnEl.textContent = city;
+        newBtnEl.textContent = searchHistoryArr[i];
         searchHistoryEl.appendChild(newBtnEl);
-        searchHistoryArr.push(city);
-        console.log(searchHistoryArr);
-    }
+        if (searchHistoryArr.length == 11) {
+            searchHistoryArr.pop();
+        };
+    };
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistoryArr));
 };
 
 var properCapitalization = function (string) {
-    var lowerCaseString = string.toLowerCase();
-    var fixedString = lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+    var stringArr = string.split(" ");
+    var fixedString = "";
+    for (i = 0; i < stringArr.length; i++) {
+        var lowerCaseString = stringArr[i].toLowerCase();
+        var fixedStringPiece = lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+        fixedString += " " + fixedStringPiece;
+    };
     return fixedString;
 };
 
@@ -193,7 +205,21 @@ var buttonHandler = function (event) {
             searchedCity = event.target.textContent;
             getCurrentCityWeather(searchedCity);
         };
+        // Removes focus from the clicked button
+        event.target.blur();
     }
+};
+
+var removeOldSearchBtns = function () {
+    var child = searchHistoryEl.lastElementChild;
+    while (child) {
+        searchHistoryEl.removeChild(child);
+        child = searchHistoryEl.lastElementChild;
+    }
+};
+
+var loadSavedHistory = function () {
+    searchHistoryArr = JSON.parse(localStorage.getItem("searchHistory"));
 };
 // END FUNCTION DECLARATIONS
 
@@ -202,3 +228,11 @@ var buttonHandler = function (event) {
 // BEGIN EVENT LISTENERS
 searchEl.addEventListener("click", buttonHandler);
 // END EVENT LISTENERS
+
+
+
+// BEGIN FUNCTIONS TO RUN ON LOAD
+loadSavedHistory();
+createSearchHistoryBtns();
+console.log(searchHistoryArr);
+// END FUNCTIONS TO RUN ON LOAD
