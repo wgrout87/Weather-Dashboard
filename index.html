@@ -11,10 +11,10 @@
 
 <body>
     <header class="jumbotron p-4">
-        <h1 class="display-2 text-center font-weight-bold">Weather Dashboard</h1>
+        <h1 class="text-center font-weight-bold">Weather Dashboard</h1>
     </header>
 
-    <section class="row">
+    <section class="row mx-auto">
         <div class="col-12 col-lg-2" id="search">
             <div class="p-3 m-3 border-bottom">
                 <h2>Search by City:</h2>
@@ -23,13 +23,13 @@
             </div>
             <div class="p-3 m-3" id="searchHistory"></div>
         </div>
-        <div class="col-12 col-lg-10">
-            <div class="p-3 mt-3 mr-3 mb-3 border rounded">
+        <div class="col-12 col-lg-9 mx-auto">
+            <div class="p-3 my-3 mx-auto border rounded">
                 <h2><span id="city">City</span> <span id="currentDate"></span></h2>
                 <p>Temp: <span id="temp"></span></p>
                 <p>Wind: <span id="wind"></span></p>
                 <p>Humidity: <span id="humidity"></span></p>
-                <p>UV Index: <span id="uv"></span></p>
+                <p>UV Index: <span class="py-1 px-3 rounded text-light" id="uv"></span></p>
             </div>
             <div>
                 <h3>5-Day Forecast:</h3>
