@@ -26,17 +26,18 @@ var getCurrentCityWeather = function (city) {
             // request was successful
             if (response.ok) {
                 response.json()
-                .then(function (data) {
-                    console.log(data);
-                    if (searchBtnPressed == true) {
-                        createSearchHistoryBtn(city);
-                        searchBtnPressed = false;
-                    }
-                    updateCurrentCity(city);
-                    var lattitude = data.coord.lat;
-                    var longitude = data.coord.lon;
-                    getWeather(lattitude, longitude);
-                })
+                    .then(function (data) {
+                        console.log(data);
+                        if (searchBtnPressed == true) {
+                            createSearchHistoryBtn(city);
+                            searchBtnPressed = false;
+                        }
+                        updateCurrentCity(city);
+                        var lattitude = data.coord.lat;
+                        var longitude = data.coord.lon;
+                        getWeather(lattitude, longitude);
+                        fiveDayForecast(lattitude, longitude);
+                    })
             }
         })
 };
@@ -49,15 +50,27 @@ var updateCurrentCity = function (city) {
 
 var getWeather = function (lat, lon) {
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial")
-                    .then(function (response) {
-                        if (response.ok) {
-                            response.json()
-                            .then(function (data) {
-                                console.log(data);
-                                updateCurrentWeather(data);
-                                })
-                            }
-                        })
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+                    .then(function (data) {
+                        console.log(data);
+                        updateCurrentWeather(data);
+                    })
+            }
+        })
+};
+
+var fiveDayForecast = function (lat, lon) {
+    fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial")
+        .then(function (response) {
+            if (response.ok) {
+                response.json()
+                    .then(function (data) {
+                        console.log(data);
+                    })
+            }
+        })
 };
 
 var updateCurrentWeather = function (data) {
