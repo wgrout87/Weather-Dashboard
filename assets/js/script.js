@@ -32,11 +32,9 @@ var getCurrentCityWeather = function (city) {
                 if (response.ok) {
                     response.json()
                         .then(function (data) {
-                            // console.log(data);
                             if (searchBtnPressed == true) {
                                 if (!searchHistoryArr.includes(city)) {
                                     searchHistoryArr.unshift(city);
-                                    console.log(searchHistoryArr);
                                     createSearchHistoryBtns();
                                 };
                                 searchBtnPressed = false;
@@ -76,7 +74,6 @@ var getWeather = function (lat, lon) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        console.log(data);
                         updateCurrentWeather(data);
                         var iconSrc = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
                         iconEl.setAttribute("src", iconSrc);
@@ -92,11 +89,9 @@ var fiveDayForecast = function (lat, lon) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
-                        // console.log(data);
                         for (i = 0; i < data.list.length; i++) {
                             var dateAndTimeArr = data.list[i].dt_txt.split(" ");
                             if (dateAndTimeArr[1] == "00:00:00") {
-                                // console.log(dateAndTimeArr[0]);
                                 futureForecast(data.list[i], dateAndTimeArr[0]);
                             }
                         }
@@ -192,19 +187,30 @@ var convertDate = function (fullDate) {
     return newDate;
 };
 
+// Function for handling the button clicks
 var buttonHandler = function (event) {
+    // Checks if the click target was a button
     if (event.target.classList.contains("btn")) {
+        // Checks if the clicked button was the search button
         if (event.target.classList.contains("btn-primary")) {
+            // Fixes the capitalization of the input and trims it
             searchedCity = properCapitalization(searchInputEl.value);
+            // Resets the input field
             searchInputEl.value = "";
+            // Sets searchBtnPressed to true
             searchBtnPressed = true;
+            // Displays the weather information
             getCurrentCityWeather(searchedCity);
-            // console.log(searchBtnPressed);
         };
+        // Checks if the clicked button was in the search history
         if (event.target.classList.contains("btn-secondary")) {
+            // Gets the city to search from the button text content
             searchedCity = event.target.textContent;
+            // Displays the weather information
             getCurrentCityWeather(searchedCity);
+            // Reorders the citys in the searchHistoryArr
             reorderedSearchHistoryArr(searchedCity);
+            // Recreates the buttons with the most recently clicked city from the search history at the top
             createSearchHistoryBtns();
         };
         // Removes focus from the clicked button
@@ -212,25 +218,34 @@ var buttonHandler = function (event) {
     }
 };
 
+// Removes all of the search history buttons
 var removeOldSearchBtns = function () {
+    // The child variable is assigned the last child of the searchHistoryEl <div>
     var child = searchHistoryEl.lastElementChild;
+    // While child is still defined...
     while (child) {
+        // ...Remove that child
         searchHistoryEl.removeChild(child);
+        // Reassign the child variable to be the last child if there still is one
         child = searchHistoryEl.lastElementChild;
     }
 };
 
+// Loads the cities that have been searched before which were stored in an array
 var loadSavedHistory = function () {
     searchHistoryArr = JSON.parse(localStorage.getItem("searchHistory"));
 };
 
+// Rearranges the order of the search history buttons so that the most recently searched city is at the top
 var reorderedSearchHistoryArr = function (cityName) {
+    // Creates a new array that has had "cityName" removed
     var reorderedArr = searchHistoryArr.filter(function (city) {
         return city != cityName;
     });
+    // Puts "cityName" back in at the front of this new array
     reorderedArr.unshift(cityName);
+    // Reassigns the values in searchHistoryArr to those of this new array
     searchHistoryArr = reorderedArr;
-    console.log(searchHistoryArr);
 }
 // END FUNCTION DECLARATIONS
 
@@ -245,5 +260,4 @@ searchEl.addEventListener("click", buttonHandler);
 // BEGIN FUNCTIONS TO RUN ON LOAD
 loadSavedHistory();
 createSearchHistoryBtns();
-console.log(searchHistoryArr);
 // END FUNCTIONS TO RUN ON LOAD
