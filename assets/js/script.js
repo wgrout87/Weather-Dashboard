@@ -180,7 +180,7 @@ var properCapitalization = function (string) {
         var fixedStringPiece = lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
         fixedString += " " + fixedStringPiece;
     };
-    return fixedString;
+    return fixedString.trim();
 };
 
 var convertDate = function (fullDate) {
@@ -204,6 +204,8 @@ var buttonHandler = function (event) {
         if (event.target.classList.contains("btn-secondary")) {
             searchedCity = event.target.textContent;
             getCurrentCityWeather(searchedCity);
+            reorderedSearchHistoryArr(searchedCity);
+            createSearchHistoryBtns();
         };
         // Removes focus from the clicked button
         event.target.blur();
@@ -221,6 +223,15 @@ var removeOldSearchBtns = function () {
 var loadSavedHistory = function () {
     searchHistoryArr = JSON.parse(localStorage.getItem("searchHistory"));
 };
+
+var reorderedSearchHistoryArr = function (cityName) {
+    var reorderedArr = searchHistoryArr.filter(function (city) {
+        return city != cityName;
+    });
+    reorderedArr.unshift(cityName);
+    searchHistoryArr = reorderedArr;
+    console.log(searchHistoryArr);
+}
 // END FUNCTION DECLARATIONS
 
 
