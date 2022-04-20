@@ -48,6 +48,14 @@ var getCurrentCityWeather = function (city) {
                                 searchHistoryArr.unshift(city);
                                 // Recreates the search history buttons to include the most recent search at the top
                                 createSearchHistoryBtns();
+                            }
+
+                            // Runs if the searched for city already a search history button
+                            else {
+                                // Rearranges the searchHistoryArr array with the searched for city in the first position
+                                reorderedSearchHistoryArr(city);
+                                // Recreates the search history buttons to include the most recent search at the top
+                                createSearchHistoryBtns();
                             };
                             // searchBtnPressed is set to false again
                             searchBtnPressed = false;
