@@ -181,7 +181,7 @@ var futureForecast = function (arrObj, date) {
     // Creates a new <div> element
     var futureDayEl = document.createElement("div");
     // Gives it the appropriate classes
-    futureDayEl.classList.add("bg-dark", "text-light", "rounded", "col-10", "col-lg-2", "my-4", "mx-auto");
+    futureDayEl.classList.add("bg-forecast", "text-light", "rounded", "col-10", "col-lg-2", "my-4", "mx-auto");
     // Creates a new <h4> element
     var futureDateEl = document.createElement("h4");
     // Converts the date that was passed into the function and assigns it to the text of the new <h4> element
@@ -240,7 +240,7 @@ var createSearchHistoryBtns = function () {
         // Creates a new <button> element
         var newBtnEl = document.createElement("button");
         // Assigns the appropriate classes
-        newBtnEl.setAttribute("class", "btn btn-secondary btn-block");
+        newBtnEl.setAttribute("class", "btn btn-history btn-block");
         // Adds the saved city names
         newBtnEl.textContent = searchHistoryArr[i];
         // Appends the new element to the searchHistoryEl <div>
@@ -293,7 +293,7 @@ var buttonHandler = function (event) {
     // Checks if the click target was a button
     if (event.target.classList.contains("btn")) {
         // Checks if the clicked button was the search button
-        if (event.target.classList.contains("btn-primary")) {
+        if (event.target.classList.contains("btn-search")) {
             // Fixes the capitalization of the input and trims it
             searchedCity = properCapitalization(searchInputEl.value);
             // Resets the input field
@@ -304,7 +304,7 @@ var buttonHandler = function (event) {
             getCurrentCityWeather(searchedCity);
         };
         // Checks if the clicked button was in the search history
-        if (event.target.classList.contains("btn-secondary")) {
+        if (event.target.classList.contains("btn-history")) {
             // Gets the city to search from the button text content
             searchedCity = event.target.textContent;
             // Displays the weather information

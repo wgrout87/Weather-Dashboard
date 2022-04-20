@@ -1,0 +1,48 @@
+:root {
+    --color-1: rgb(2, 127, 129);
+    --color-2: rgb(2, 33, 91);
+    --color-3: #fff;
+}
+
+.bg-header {
+    background: var(--color-1);
+    background: linear-gradient(41deg, var(--color-1) 0%, var(--color-2) 65%);
+    margin-bottom: 2rem;
+}
+
+.bg-forecast {
+    background: var(--color-1);
+    background: linear-gradient(220deg, var(--color-1) 0%, var(--color-2) 65%);
+}
+
+.btn-search {
+    color: var(--color-3);
+    background-color: var(--color-2);
+    border-color: var(--color-2);
+}
+
+.btn-history {
+    color: var(--color-3);
+    background-color: var(--color-1);
+    border-color: var(--color-1);
+}
+
+.btn-search:hover {
+    color: var(--color-1);
+}
+
+.btn-history:hover {
+    color: var(--color-2);
+}
+
+.border-custom {
+    border: 3px solid var(--color-2);
+}
+
+.border-bottom-custom {
+    border-bottom: 3px solid var(--color-2);
+}
+
+.bg-faded {
+    background-color: rgba(2, 127, 129, 0.2);
+}
