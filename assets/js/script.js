@@ -103,7 +103,7 @@ var getWeather = function (lat, lon) {
                         // Updates the current weather display based on fetched data
                         updateCurrentWeather(data);
                         // Constructs a url for the weather icon source
-                        var iconSrc = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
+                        var iconSrc = "https://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
                         // Sets the sourch of the image
                         iconEl.setAttribute("src", iconSrc);
                         fiveDayForecast(data);
@@ -181,7 +181,7 @@ var futureForecast = function (arrObj) {
     // Creates a new <img> element
     var futureIcon = document.createElement("img");
     // Captures the url contstruction for the img source in a variable based on information from the object that was passed into the function
-    var iconSrc = "http://openweathermap.org/img/wn/" + arrObj.weather[0].icon + "@2x.png";
+    var iconSrc = "https://openweathermap.org/img/wn/" + arrObj.weather[0].icon + "@2x.png";
     // Sets the src attribute of the image as the url created previously
     futureIcon.setAttribute("src", iconSrc);
     // Appends the <h4> element onto the initial <div> element
