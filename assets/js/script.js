@@ -17,7 +17,6 @@ var fiveDayForecastEl = document.querySelector("#fiveDayForecast");
 // BEGIN GLOBAL VARIABLES
 var searchedCity = null;
 var searchBtnPressed = false;
-var monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var searchHistoryArr = [];
 // END GLOBAL VARIABLES
 
@@ -95,7 +94,6 @@ var updateCurrentCity = function (city) {
 
 // Gets the current weather from the Open Weather Map API based on lattitude and longitude
 var getWeather = function (lat, lon) {
-    console.log("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial");
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial")
         .then(function (response) {
             if (response.ok) {
@@ -173,8 +171,11 @@ var futureForecast = function (arrObj) {
     futureDayEl.classList.add("bg-forecast", "text-light", "rounded", "col-10", "col-lg-2", "my-4", "mx-auto");
     // Creates a new <h4> element
     var futureDateEl = document.createElement("h4");
-    // Converts the date that was passed into the function and assigns it to the text of the new <h4> element
-    futureDateEl.textContent = arrObj.dt;
+    // Converts the Unix timestamp to a readable date
+    var futureDate = new Date(arrObj.dt * 1000);
+    console.log(futureDate.toString());
+    // Parses out the desired date information that was passed into the function and assigns it to the text of the new <h4> element
+    futureDateEl.textContent = convertDate(futureDate.toString());
     // Appends the <h4> element onto the initial <div> element
     futureDayEl.appendChild(futureDateEl);
     // Creates a new <img> element
@@ -264,15 +265,17 @@ var properCapitalization = function (string) {
 // Converts the date retrieved from the API into a more appealing format
 var convertDate = function (fullDate) {
     // Splits and stores the incoming date into an array
-    var fullDateArr = fullDate.split("-");
-    // Saves the year
-    var year = fullDateArr[0];
-    // Changes the month from a number to the abreviated form stored in the monthsArr array
-    var month = monthsArr[fullDateArr[1] - 1];
+    var fullDateArr = fullDate.split(" ");
+    // Saves the day
+    var day = fullDateArr[0];
+    // Saves the month
+    var month = fullDateArr[1];
     // Saves the date
     var date = fullDateArr[2];
+    // Saves the year
+    var year = fullDateArr[3];
     // Puts all of the obtained values into a string
-    var newDate = month + " " + date + " " + year;
+    var newDate = day + " " + month + " " + date + " " + year;
     // Returns the converted date
     return newDate;
 };
