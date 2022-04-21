@@ -67,7 +67,6 @@ var getCurrentCityWeather = function (city) {
                         var longitude = data.coord.lon;
                         // Gets the weather information and the five day forecast based on the lat. and long.
                         getWeather(lattitude, longitude);
-                        fiveDayForecast(lattitude, longitude);
                     })
             }
 
@@ -96,17 +95,20 @@ var updateCurrentCity = function (city) {
 
 // Gets the current weather from the Open Weather Map API based on lattitude and longitude
 var getWeather = function (lat, lon) {
-    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&cnt=1&appid=792e4643b4781b31d71b6337cd249093&units=imperial")
+    console.log("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial");
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial")
         .then(function (response) {
             if (response.ok) {
                 response.json()
                     .then(function (data) {
+                        console.log(data);
                         // Updates the current weather display based on fetched data
                         updateCurrentWeather(data);
                         // Constructs a url for the weather icon source
                         var iconSrc = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png";
                         // Sets the sourch of the image
                         iconEl.setAttribute("src", iconSrc);
+                        fiveDayForecast(data);
                     })
             } else {
                 // Alerts the user if there was a problem with the response
@@ -120,34 +122,13 @@ var getWeather = function (lat, lon) {
 };
 
 // Gets the 5-day forecast from the Open Weather Map API based on lattitude and longitude
-var fiveDayForecast = function (lat, lon) {
-    // Clears out space from any previous forecasts
+var fiveDayForecast = function (data) {
     removeOldForecast();
-    fetch("https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=792e4643b4781b31d71b6337cd249093&units=imperial")
-        .then(function (response) {
-            if (response.ok) {
-                response.json()
-                    .then(function (data) {
-                        // Loops through the results to sift through the returned information
-                        for (i = 0; i < data.list.length; i++) {
-                            // Splits the date from the time stamp
-                            var dateAndTimeArr = data.list[i].dt_txt.split(" ");
-                            // Selects based on the first time stamp for each day
-                            if (dateAndTimeArr[1] == "00:00:00") {
-                                // Calls the futureForecast() function with information retrieved by fetch
-                                futureForecast(data.list[i], dateAndTimeArr[0]);
-                            }
-                        }
-                    })
-            } else {
-                // Alerts the user if there was a problem with the response
-                alert("Error: There was a problem retrieving the 5-day forecast");
-            }
-        })
-        // Alerts the user if unable to communicate with Open Weather Map
-        .catch(function (error) {
-            alert("Unable to connect to Openweathermap.org");
-        });
+    // Loops through the results to sift through the returned information
+    for (i = 1; i < 6; i++) {
+        // Calls the futureForecast() function with information retrieved by fetch
+        futureForecast(data.daily[i]);
+    }
 };
 
 // Function for updating the current weather based on fetched data
@@ -185,7 +166,7 @@ var assessUvi = function (uvi) {
 };
 
 // Creates a forecast card based on an object and a date
-var futureForecast = function (arrObj, date) {
+var futureForecast = function (arrObj) {
     // Creates a new <div> element
     var futureDayEl = document.createElement("div");
     // Gives it the appropriate classes
@@ -193,7 +174,7 @@ var futureForecast = function (arrObj, date) {
     // Creates a new <h4> element
     var futureDateEl = document.createElement("h4");
     // Converts the date that was passed into the function and assigns it to the text of the new <h4> element
-    futureDateEl.textContent = convertDate(date);
+    futureDateEl.textContent = arrObj.dt;
     // Appends the <h4> element onto the initial <div> element
     futureDayEl.appendChild(futureDateEl);
     // Creates a new <img> element
@@ -207,19 +188,19 @@ var futureForecast = function (arrObj, date) {
     // Creates a new <p> element
     var futureTempEl = document.createElement("p");
     // Gives it text based on the object that was passed into the function
-    futureTempEl.textContent = "Temp: " + arrObj.main.temp;
+    futureTempEl.textContent = "Temp: " + arrObj.temp.day;
     // Appends the <p> element onto the initial <div> element
     futureDayEl.appendChild(futureTempEl);
     // Creates a new <p> element
     var futureWindEl = document.createElement("p");
     // Gives it text based on the object that was passed into the function
-    futureWindEl.textContent = "Wind: " + arrObj.wind.speed + " MPH";
+    futureWindEl.textContent = "Wind: " + arrObj.wind_speed + " MPH";
     // Appends the <p> element onto the initial <div> element
     futureDayEl.appendChild(futureWindEl);
     // Creates a new <p> element
     futureHumidityEl = document.createElement("p");
     // Gives it text based on the object that was passed into the function
-    futureHumidityEl.textContent = "Humidity: " + arrObj.main.humidity + "%";
+    futureHumidityEl.textContent = "Humidity: " + arrObj.humidity + "%";
     // Appends the <p> element onto the initial <div> element
     futureDayEl.appendChild(futureHumidityEl);
     // Appends the initial <div> element onto the fiveDayForecastEl <div>
