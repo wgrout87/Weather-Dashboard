@@ -28,3 +28,4 @@ The deployed website should resemeble the following screenshot.
 ![Weather Dashboard Screenshot](./assets/images/screenshot.png)
 
 ## Credits
+This project was made possible by the OpenWeather API - https://openweathermap.org/api. The weather and onecall APIs were used.
