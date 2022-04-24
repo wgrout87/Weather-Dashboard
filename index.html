@@ -16,6 +16,7 @@
     </header>
 
     <section class="row mx-auto">
+        <!-- Div containing search field and search history buttons -->
         <div class="col-12 col-md-4 col-lg-3 col-xl-2" id="search">
             <div class="p-3 m-3 border-bottom-custom">
                 <h2>Search by City:</h2>
@@ -24,7 +25,9 @@
             </div>
             <div class="p-3 m-3" id="searchHistory"></div>
         </div>
+        <!-- Div for both the current weather forecast and the 5-day forecast -->
         <div class="col-12 col-md-8 col-lg-9 col-xl-10 mx-auto">
+            <!-- Current weather forecast with spans for all dynamically created content -->
             <div class="p-3 my-3 mx-auto border-custom rounded bg-faded">
                 <h2>
                     <span id="city">City</span> <span id="currentDate"></span>
@@ -35,6 +38,7 @@
                 <p>Humidity: <span id="humidity"></span></p>
                 <p>UV Index: <span class="py-1 px-3 rounded text-light" id="uv"></span></p>
             </div>
+            <!-- 5-Day Forecast content will be added here -->
             <div>
                 <h3>5-Day Forecast:</h3>
                 <div class="row" id="fiveDayForecast">

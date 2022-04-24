@@ -1,7 +1,7 @@
 # Weather Dashboard
 
 ## Description
-This repository contains a webpage for a weather dashboard. A city can be searched for through the text input. Current weather will be displayed, including the temperature, wind speed, humidity, and UV index. A five day forecast will also display with similar information. All information is obtained from OpenWeather.
+This repository contains a webpage for a weather dashboard. Cities can be searched for through the text input. Current weather will be displayed, including the temperature, wind speed, humidity, and UV index. A five day forecast will also display with similar information. All information is obtained from OpenWeather's API.
 
 Technologies used include HTML, CSS, Javascript, Bootstrap, and server-side API's.
 

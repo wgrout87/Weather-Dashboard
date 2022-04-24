@@ -1,48 +1,58 @@
+/* Variables for the 3 main colors used */
 :root {
     --color-1: rgb(2, 127, 129);
     --color-2: rgb(2, 33, 91);
     --color-3: #fff;
 }
 
+/* Background gradient for the header  */
 .bg-header {
     background: var(--color-1);
     background: linear-gradient(41deg, var(--color-1) 0%, var(--color-2) 65%);
     margin-bottom: 2rem;
 }
 
+/* Background gradient for the 5-day forecast cards */
 .bg-forecast {
     background: var(--color-1);
     background: linear-gradient(220deg, var(--color-1) 0%, var(--color-2) 65%);
 }
 
+/* Color style for the search button */
 .btn-search {
     color: var(--color-3);
     background-color: var(--color-2);
     border-color: var(--color-2);
 }
 
+/* Color style for the search history buttons */
 .btn-history {
     color: var(--color-3);
     background-color: var(--color-1);
     border-color: var(--color-1);
 }
 
+/* Alternate font color on hover for the search button */
 .btn-search:hover {
     color: var(--color-1);
 }
 
+/* Alternate font color on hover for the search histery buttons */
 .btn-history:hover {
     color: var(--color-2);
 }
 
+/* Border style for the current weather */
 .border-custom {
     border: 3px solid var(--color-2);
 }
 
+/* Border to separate the city search from the search history buttons */
 .border-bottom-custom {
     border-bottom: 3px solid var(--color-2);
 }
 
+/* Faded background color for the current weather */
 .bg-faded {
     background-color: rgba(2, 127, 129, 0.2);
 }
